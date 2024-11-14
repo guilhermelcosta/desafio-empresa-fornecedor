@@ -14,13 +14,13 @@ import static org.springframework.http.ResponseEntity.ok;
  * Controlador base para operações CRUD (Create, Read, Update, Delete).
  * Esta classe abstrata fornece endpoints RESTful para gerenciar entidades genéricas.
  *
- * @param <T>  O tipo da entidade.
+ * @param <I>  O tipo da entidade.
  * @param <ID> O tipo do identificador da entidade.
  */
 @AllArgsConstructor
-public abstract class CrudController<T, ID> {
+public abstract class CrudController<I, O, ID> {
 
-    private final CrudService<T, ID> crudService;
+    private final CrudService<I, O, ID> crudService;
 
     /**
      * Cria uma nova entidade.
@@ -29,7 +29,7 @@ public abstract class CrudController<T, ID> {
      * @return A entidade criada.
      */
     @PostMapping
-    public ResponseEntity<T> criar(@Valid @RequestBody T objeto) {
+    public ResponseEntity<O> criar(@Valid @RequestBody I objeto) {
         return ok(crudService.criar(objeto));
     }
 
@@ -41,7 +41,7 @@ public abstract class CrudController<T, ID> {
      * @return A entidade atualizada.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<T> atualizar(@Valid @RequestBody T objeto, @PathVariable ID id) {
+    public ResponseEntity<O> atualizar(@Valid @RequestBody I objeto, @PathVariable ID id) {
         return ok(crudService.atualizar(objeto, id));
     }
 
@@ -52,7 +52,7 @@ public abstract class CrudController<T, ID> {
      * @return A entidade encontrada.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<T> buscarPorId(@PathVariable ID id) {
+    public ResponseEntity<O> buscarPorId(@PathVariable ID id) {
         return ok(crudService.buscarPorId(id));
     }
 
@@ -64,7 +64,7 @@ public abstract class CrudController<T, ID> {
      * @return Uma página de entidades.
      */
     @GetMapping
-    public ResponseEntity<Page<T>> buscarTodos(@RequestParam(defaultValue = "0") int indice,
+    public ResponseEntity<Page<O>> buscarTodos(@RequestParam(defaultValue = "0") int indice,
                                                @RequestParam(defaultValue = "10") int tamanho) {
         return ok(crudService.buscarTodos(indice, tamanho));
     }

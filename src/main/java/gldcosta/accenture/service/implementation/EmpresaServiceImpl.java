@@ -2,7 +2,7 @@ package gldcosta.accenture.service.implementation;
 
 import gldcosta.accenture.entity.Empresa;
 import gldcosta.accenture.repository.EmpresaRepository;
-import gldcosta.accenture.service.CrudService;
+import gldcosta.accenture.service.EmpresaService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class EmpresaServiceImpl implements CrudService<Empresa, Long> {
+public class EmpresaServiceImpl implements EmpresaService {
 
     private final EmpresaRepository empresaRepository;
 
@@ -96,6 +96,8 @@ public class EmpresaServiceImpl implements CrudService<Empresa, Long> {
     public void deletarPorId(Long id) {
 
         log.info("[INFO] [deletarPorTd] [deletando empresa por id: {}]", id);
+
+        buscarPorId(id);
 
         empresaRepository.deleteById(id);
     }
