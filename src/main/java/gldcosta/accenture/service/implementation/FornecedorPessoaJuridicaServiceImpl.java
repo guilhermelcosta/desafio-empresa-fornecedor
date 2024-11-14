@@ -1,10 +1,8 @@
 package gldcosta.accenture.service.implementation;
 
-import gldcosta.accenture.dto.FornecedorPessoaJuridicaDto;
-import gldcosta.accenture.entity.Empresa;
 import gldcosta.accenture.entity.FornecedorPessoaJuridica;
-import gldcosta.accenture.repository.EmpresaRepository;
 import gldcosta.accenture.repository.FornecedorPessoaJuridicaRepository;
+import gldcosta.accenture.service.CEPService;
 import gldcosta.accenture.service.FornecedorPessoaJuridicaService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -13,10 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-
-import static gldcosta.accenture.constant.Constants.IGNORED_FIELDS;
-import static java.util.stream.Collectors.toSet;
+import static gldcosta.accenture.constant.Constants.CAMPOS_IGNORADOS;
+import static gldcosta.accenture.constant.Constants.CHAVE_ERRO;
+import static java.util.Objects.isNull;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Slf4j
@@ -24,38 +21,41 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 @AllArgsConstructor
 public class FornecedorPessoaJuridicaServiceImpl implements FornecedorPessoaJuridicaService {
 
+    private final CEPService cepService;
     private final FornecedorPessoaJuridicaRepository fornecedorRepository;
-    private EmpresaRepository empresaRepository;
 
     @Override
-    public FornecedorPessoaJuridica criar(FornecedorPessoaJuridicaDto objeto) {
+    public FornecedorPessoaJuridica criar(FornecedorPessoaJuridica objeto) {
 
         log.info("[INFO] [criar] [criando fornecedor - pessoa jurídica: {}]", objeto);
 
-//        todo: validar cep
+        if (cepValido(objeto))
+            return fornecedorRepository.save(objeto);
+        else {
+            log.error("[ERROR] [criar] [CEP inválido: {}]", objeto.getCep());
 
-        Set<Empresa> empresas = objeto.empresaIds().stream().map(id -> {
-            return empresaRepository.findById(id).orElseThrow(
-                    () -> new EntityNotFoundException("Empresa não encontrada"));
-        }).collect(toSet());
+            throw new IllegalArgumentException("CEP inválido");
+        }
 
-        FornecedorPessoaJuridica fornecedor = new FornecedorPessoaJuridica(empresas);
-
-        copyProperties(objeto, fornecedor, IGNORED_FIELDS);
-
-        return fornecedorRepository.save(fornecedor);
     }
 
     @Override
-    public FornecedorPessoaJuridica atualizar(FornecedorPessoaJuridicaDto objeto, Long id) {
+    public FornecedorPessoaJuridica atualizar(FornecedorPessoaJuridica objeto, Long id) {
 
         log.info("[INFO] [atualizar] [atualizando fornecedor - pessoa jurídica: {}]", objeto);
 
         FornecedorPessoaJuridica fornecedor = buscarPorId(id);
 
-        copyProperties(objeto, fornecedor, IGNORED_FIELDS);
+        if (cepValido(objeto)) {
 
-        return fornecedorRepository.save(fornecedor);
+            copyProperties(objeto, fornecedor, CAMPOS_IGNORADOS);
+
+            return fornecedorRepository.save(fornecedor);
+        } else {
+            log.error("[ERROR] [criar] [CEP inválido: {}]", objeto.getCep());
+
+            throw new IllegalArgumentException("CEP inválido");
+        }
     }
 
     @Override
@@ -83,5 +83,10 @@ public class FornecedorPessoaJuridicaServiceImpl implements FornecedorPessoaJuri
         buscarPorId(id);
 
         fornecedorRepository.deleteById(id);
+    }
+
+//    todo: passar para classe de cep
+    private boolean cepValido(FornecedorPessoaJuridica objeto) {
+        return isNull(cepService.obterDadosCEP(objeto.getCep()).get(CHAVE_ERRO));
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import static gldcosta.accenture.constant.Constants.IGNORED_FIELDS;
+import static gldcosta.accenture.constant.Constants.CAMPOS_IGNORADOS;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 /**
@@ -52,7 +52,7 @@ public class EmpresaServiceImpl implements EmpresaService {
 
         Empresa empresa = buscarPorId(id);
 
-        copyProperties(objeto, empresa, IGNORED_FIELDS);
+        copyProperties(objeto, empresa, CAMPOS_IGNORADOS);
 
         return empresaRepository.save(empresa);
     }
