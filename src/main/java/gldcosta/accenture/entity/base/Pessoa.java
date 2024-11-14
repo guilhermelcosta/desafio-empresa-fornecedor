@@ -14,7 +14,6 @@ import lombok.Setter;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public abstract class Pessoa extends EntidadeBase {
 
-    //    todo: validacao do cep
     @Column(nullable = false)
     private String cep;
 

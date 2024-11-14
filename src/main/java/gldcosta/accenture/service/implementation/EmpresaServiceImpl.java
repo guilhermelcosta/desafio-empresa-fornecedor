@@ -2,7 +2,7 @@ package gldcosta.accenture.service.implementation;
 
 import gldcosta.accenture.entity.Empresa;
 import gldcosta.accenture.repository.EmpresaRepository;
-import gldcosta.accenture.service.CrudService;
+import gldcosta.accenture.service.EmpresaService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import static gldcosta.accenture.constant.Constants.IGNORED_FIELDS;
+import static gldcosta.accenture.constant.Constants.CAMPOS_IGNORADOS;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 /**
@@ -20,7 +20,7 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class EmpresaServiceImpl implements CrudService<Empresa, Long> {
+public class EmpresaServiceImpl implements EmpresaService {
 
     private final EmpresaRepository empresaRepository;
 
@@ -52,7 +52,7 @@ public class EmpresaServiceImpl implements CrudService<Empresa, Long> {
 
         Empresa empresa = buscarPorId(id);
 
-        copyProperties(objeto, empresa, IGNORED_FIELDS);
+        copyProperties(objeto, empresa, CAMPOS_IGNORADOS);
 
         return empresaRepository.save(empresa);
     }
@@ -96,6 +96,8 @@ public class EmpresaServiceImpl implements CrudService<Empresa, Long> {
     public void deletarPorId(Long id) {
 
         log.info("[INFO] [deletarPorTd] [deletando empresa por id: {}]", id);
+
+        buscarPorId(id);
 
         empresaRepository.deleteById(id);
     }
