@@ -9,9 +9,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
-import static gldcosta.accenture.constant.Constants.VIA_CEP_TIPO_RETORNO;
-import static gldcosta.accenture.constant.Constants.VIA_CEP_URL;
+import static gldcosta.accenture.constant.Constants.*;
 import static java.lang.String.format;
+import static java.util.Objects.isNull;
 import static org.springframework.http.HttpMethod.GET;
 
 /**
@@ -40,4 +40,17 @@ public class CEPServiceImpl implements CEPService {
                                      new ParameterizedTypeReference<Map<String, Object>>() {
                                      }).getBody();
     }
+
+    /**
+     * Verifica se um CEP é válido, ou seja, se o CEP informado existe.
+     *
+     * @param cep o Código de Endereçamento Postal (CEP) que será validado.
+     * @return true se o CEP for válido, false caso contrário.
+     */
+    @Override
+    @Cacheable("cep")
+    public boolean cepValido(String cep) {
+        return isNull(obterDadosCEP(cep).get(CHAVE_ERRO));
+    }
+
 }

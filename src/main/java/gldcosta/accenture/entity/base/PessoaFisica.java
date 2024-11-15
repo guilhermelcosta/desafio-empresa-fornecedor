@@ -1,5 +1,6 @@
 package gldcosta.accenture.entity.base;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.Column;
@@ -27,5 +28,6 @@ public abstract class PessoaFisica extends Pessoa {
     private String nome;
 
     @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dataNascimento;
 }

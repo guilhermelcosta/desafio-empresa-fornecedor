@@ -9,6 +9,8 @@ import lombok.*;
 
 import java.util.Set;
 
+import static jakarta.persistence.FetchType.EAGER;
+
 @Builder
 @Getter
 @Setter
@@ -19,21 +21,21 @@ import java.util.Set;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Empresa extends PessoaJuridica {
 
-    @ManyToMany
+    @ManyToMany(fetch = EAGER)
     @JsonIgnore
     @JoinTable(
-            name = "empresa_fornecedor_pessoa_fisica",
+            name = "empresa_fornecedor_pf",
             joinColumns = @JoinColumn(name = "empresa_id"),
             inverseJoinColumns = @JoinColumn(name = "fornecedor_id")
     )
-    private Set<FornecedorPessoaFisica> fornecedoresPessoaFisica;
+    private Set<FornecedorPF> fornecedoresPF;
 
-    @ManyToMany
+    @ManyToMany(fetch = EAGER)
     @JsonIgnore
     @JoinTable(
-            name = "empresa_fornecedor_pessoa_juridica",
+            name = "empresa_fornecedor_pj",
             joinColumns = @JoinColumn(name = "empresa_id"),
             inverseJoinColumns = @JoinColumn(name = "fornecedor_id")
     )
-    private Set<FornecedorPessoaJuridica> fornecedoresPessoaJuridica;
+    private Set<FornecedorPJ> fornecedoresPJ;
 }

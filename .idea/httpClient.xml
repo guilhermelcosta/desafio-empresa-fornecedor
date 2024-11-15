@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="HttpClientEndpointsTabState">
-    <option name="requestToText" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;f1e333cb07a9c9cd19b157181f3796908c8020de&quot; value=&quot;###&amp;#10;POST http://localhost:8080/api/v1/empresa&quot; /&gt;&#10;  &lt;entry key=&quot;e5098e3eb13a8e686cfff460ff4211dc930883f4&quot; value=&quot;###&amp;#10;DELETE http://localhost:8080/api/v1/empresa/{{id}}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+    <option name="requestToText" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;f1e333cb07a9c9cd19b157181f3796908c8020de&quot; value=&quot;###&amp;#10;POST http://localhost:8080/api/v1/empresa&quot; /&gt;&#10;  &lt;entry key=&quot;2d22532ea50c28fc83052287e5e87d9b23e4500a&quot; value=&quot;###&amp;#10;GET http://localhost:8080/api/v1/empresa?&amp;#10;    indice={{$random.integer(100)}}&amp;amp;&amp;#10;    tamanho={{$random.integer(100)}}&quot; /&gt;&#10;  &lt;entry key=&quot;62a4b1e198038ddc6da8eda1f2f69d601fa3cb99&quot; value=&quot;###&amp;#10;POST http://localhost:8080/api/v1/fornecedor-pj&quot; /&gt;&#10;  &lt;entry key=&quot;e5098e3eb13a8e686cfff460ff4211dc930883f4&quot; value=&quot;###&amp;#10;DELETE http://localhost:8080/api/v1/empresa/{{id}}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
   </component>
 </project>

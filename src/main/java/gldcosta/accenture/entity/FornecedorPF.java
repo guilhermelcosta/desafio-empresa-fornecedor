@@ -1,26 +1,25 @@
 package gldcosta.accenture.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import gldcosta.accenture.entity.base.PessoaFisica;
-import gldcosta.accenture.entity.base.PessoaJuridica;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
-@Builder
 @Getter
 @Setter
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "fornecedor_pessoa_juridica")
+@Table(name = "fornecedor_pf")
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class FornecedorPessoaJuridica extends PessoaJuridica {
+public class FornecedorPF extends PessoaFisica {
 
-    @ManyToMany(mappedBy = "fornecedoresPessoaJuridica")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "fornecedoresPF")
     private Set<Empresa> empresas;
 }

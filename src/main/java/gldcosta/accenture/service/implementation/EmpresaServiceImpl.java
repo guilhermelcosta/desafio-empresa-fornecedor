@@ -1,8 +1,13 @@
 package gldcosta.accenture.service.implementation;
 
 import gldcosta.accenture.entity.Empresa;
+import gldcosta.accenture.entity.FornecedorPF;
+import gldcosta.accenture.entity.FornecedorPJ;
 import gldcosta.accenture.repository.EmpresaRepository;
+import gldcosta.accenture.service.CEPService;
 import gldcosta.accenture.service.EmpresaService;
+import gldcosta.accenture.service.FornecedorPFService;
+import gldcosta.accenture.service.FornecedorPJService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +15,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import static gldcosta.accenture.constant.Constants.CAMPOS_IGNORADOS;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static gldcosta.accenture.constant.Constants.*;
+import static java.time.LocalDate.now;
+import static java.util.stream.Collectors.toSet;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 /**
@@ -22,6 +33,9 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 @AllArgsConstructor
 public class EmpresaServiceImpl implements EmpresaService {
 
+    private final FornecedorPJService fornecedorPJService;
+    private final FornecedorPFService fornecedorPFService;
+    private final CEPService cepService;
     private final EmpresaRepository empresaRepository;
 
     /**
@@ -100,5 +114,68 @@ public class EmpresaServiceImpl implements EmpresaService {
         buscarPorId(id);
 
         empresaRepository.deleteById(id);
+    }
+
+    /**
+     * Atualiza os fornecedores PJ de uma empresa.
+     *
+     * @param idEmpresa        O identificador da empresa.
+     * @param idFornecedoresPJ A lista de identificadores dos fornecedores PJ.
+     * @return A empresa atualizada.
+     */
+    @Override
+    public Empresa atualizarFornecedorPJ(Long idEmpresa, List<Long> idFornecedoresPJ) {
+
+        log.info("[INFO] [atualizarFornecedorPJ] [atualizando fornecedores PJ da empresa: {}]", idEmpresa);
+
+        Empresa empresa = buscarPorId(idEmpresa);
+        Set<FornecedorPJ> fornecedorPJ = idFornecedoresPJ.stream()
+                .map(fornecedorPJService::buscarPorId)
+                .collect(toSet());
+
+        empresa.setFornecedoresPJ(fornecedorPJ);
+
+        return empresaRepository.save(empresa);
+    }
+
+    /**
+     * Atualiza os fornecedores PF de uma empresa.
+     *
+     * @param idEmpresa        O identificador da empresa.
+     * @param idFornecedoresPF A lista de identificadores dos fornecedores PF.
+     * @return A empresa atualizada.
+     */
+    @Override
+    public Empresa atualizarFornecedorPF(Long idEmpresa, List<Long> idFornecedoresPF) {
+
+        log.info("[INFO] [atualizarFornecedorPF] [atualizando fornecedores PF da empresa: {}]", idEmpresa);
+
+        Empresa empresa = buscarPorId(idEmpresa);
+        Set<FornecedorPF> fornecedorPF = idFornecedoresPF.stream()
+                .map(fornecedorPFService::buscarPorId)
+                .collect(toSet());
+
+        validarIdadeFornecedorPF(empresa, fornecedorPF);
+        empresa.setFornecedoresPF(fornecedorPF);
+
+        return empresaRepository.save(empresa);
+    }
+
+    /**
+     * Valida a idade dos fornecedores PF de uma empresa.
+     *
+     * @param empresa      A empresa.
+     * @param fornecedorPF O conjunto de fornecedores PF.
+     * @throws RuntimeException Se algum fornecedor PF for menor de idade e a empresa estiver no Paraná.
+     */
+    private void validarIdadeFornecedorPF(Empresa empresa, Set<FornecedorPF> fornecedorPF) {
+        Map<String, Object> dadosCEP = cepService.obterDadosCEP(empresa.getCep());
+
+        if (ESTADOS_MAPEADOS_FORNECEDOR_MENOR_DE_IDADE.contains(dadosCEP.get(CHAVE_ESTADO))) {
+            fornecedorPF.forEach(fornecedor -> {
+                if (fornecedorPF.iterator().next().getDataNascimento().isAfter(now().minusYears(DEZOITO_ANOS)))
+                    throw new RuntimeException("Fornecedor menor de idade não pode ser cadastrado no Paraná");
+            });
+        }
     }
 }

@@ -1,9 +1,9 @@
 package gldcosta.accenture.service.implementation;
 
-import gldcosta.accenture.entity.FornecedorPessoaJuridica;
-import gldcosta.accenture.repository.FornecedorPessoaJuridicaRepository;
+import gldcosta.accenture.entity.FornecedorPJ;
+import gldcosta.accenture.repository.FornecedorPJRepository;
 import gldcosta.accenture.service.CEPService;
-import gldcosta.accenture.service.FornecedorPessoaJuridicaService;
+import gldcosta.accenture.service.FornecedorPJService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,24 +12,22 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import static gldcosta.accenture.constant.Constants.CAMPOS_IGNORADOS;
-import static gldcosta.accenture.constant.Constants.CHAVE_ERRO;
-import static java.util.Objects.isNull;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Slf4j
 @Service
 @AllArgsConstructor
-public class FornecedorPessoaJuridicaServiceImpl implements FornecedorPessoaJuridicaService {
+public class FornecedorPJServiceImpl implements FornecedorPJService {
 
     private final CEPService cepService;
-    private final FornecedorPessoaJuridicaRepository fornecedorRepository;
+    private final FornecedorPJRepository fornecedorRepository;
 
     @Override
-    public FornecedorPessoaJuridica criar(FornecedorPessoaJuridica objeto) {
+    public FornecedorPJ criar(FornecedorPJ objeto) {
 
         log.info("[INFO] [criar] [criando fornecedor - pessoa jurídica: {}]", objeto);
 
-        if (cepValido(objeto))
+        if (cepService.cepValido(objeto.getCep()))
             return fornecedorRepository.save(objeto);
         else {
             log.error("[ERROR] [criar] [CEP inválido: {}]", objeto.getCep());
@@ -40,13 +38,13 @@ public class FornecedorPessoaJuridicaServiceImpl implements FornecedorPessoaJuri
     }
 
     @Override
-    public FornecedorPessoaJuridica atualizar(FornecedorPessoaJuridica objeto, Long id) {
+    public FornecedorPJ atualizar(FornecedorPJ objeto, Long id) {
 
         log.info("[INFO] [atualizar] [atualizando fornecedor - pessoa jurídica: {}]", objeto);
 
-        FornecedorPessoaJuridica fornecedor = buscarPorId(id);
+        FornecedorPJ fornecedor = buscarPorId(id);
 
-        if (cepValido(objeto)) {
+        if (cepService.cepValido(objeto.getCep())) {
 
             copyProperties(objeto, fornecedor, CAMPOS_IGNORADOS);
 
@@ -59,7 +57,7 @@ public class FornecedorPessoaJuridicaServiceImpl implements FornecedorPessoaJuri
     }
 
     @Override
-    public FornecedorPessoaJuridica buscarPorId(Long id) {
+    public FornecedorPJ buscarPorId(Long id) {
 
         log.info("[INFO] [buscarPorId] [buscando fornecedor - pessoa jurídica por id: {}]", id);
 
@@ -68,7 +66,7 @@ public class FornecedorPessoaJuridicaServiceImpl implements FornecedorPessoaJuri
     }
 
     @Override
-    public Page<FornecedorPessoaJuridica> buscarTodos(int indice, int tamanho) {
+    public Page<FornecedorPJ> buscarTodos(int indice, int tamanho) {
 
         log.info("[INFO] [buscarTodos] [buscando todos os fornecedores - pessoa jurídica]");
 
@@ -83,10 +81,5 @@ public class FornecedorPessoaJuridicaServiceImpl implements FornecedorPessoaJuri
         buscarPorId(id);
 
         fornecedorRepository.deleteById(id);
-    }
-
-//    todo: passar para classe de cep
-    private boolean cepValido(FornecedorPessoaJuridica objeto) {
-        return isNull(cepService.obterDadosCEP(objeto.getCep()).get(CHAVE_ERRO));
     }
 }

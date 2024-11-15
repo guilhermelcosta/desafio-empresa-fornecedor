@@ -5,4 +5,6 @@ import java.util.Map;
 public interface CEPService {
 
     Map<String, Object> obterDadosCEP(String cep);
+
+    boolean cepValido(String cep);
 }
