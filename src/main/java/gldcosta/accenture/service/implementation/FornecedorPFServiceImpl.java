@@ -82,4 +82,10 @@ public class FornecedorPFServiceImpl implements FornecedorPFService {
 
         fornecedorRepository.deleteById(id);
     }
+
+    @Override
+    public Page<FornecedorPF> buscarPorEmpresaId(Long empresaId, int pagina, int tamanho) {
+
+        return fornecedorRepository.findAllByEmpresasId(empresaId, PageRequest.of(pagina, tamanho));
+    }
 }
