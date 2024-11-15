@@ -22,6 +22,13 @@ public class FornecedorPJServiceImpl implements FornecedorPJService {
     private final CEPService cepService;
     private final FornecedorPJRepository fornecedorRepository;
 
+    /**
+     * Cria um novo fornecedor pessoa jurídica.
+     *
+     * @param objeto O fornecedor pessoa jurídica a ser criado.
+     * @return O fornecedor pessoa jurídica criado.
+     * @throws IllegalArgumentException se o CEP fornecido for inválido.
+     */
     @Override
     public FornecedorPJ criar(FornecedorPJ objeto) {
 
@@ -31,12 +38,18 @@ public class FornecedorPJServiceImpl implements FornecedorPJService {
             return fornecedorRepository.save(objeto);
         else {
             log.error("[ERROR] [criar] [CEP inválido: {}]", objeto.getCep());
-
             throw new IllegalArgumentException("CEP inválido");
         }
-
     }
 
+    /**
+     * Atualiza um fornecedor pessoa jurídica existente.
+     *
+     * @param objeto O fornecedor pessoa jurídica com os novos dados.
+     * @param id     O identificador do fornecedor pessoa jurídica a ser atualizado.
+     * @return O fornecedor pessoa jurídica atualizado.
+     * @throws IllegalArgumentException se o CEP fornecido for inválido.
+     */
     @Override
     public FornecedorPJ atualizar(FornecedorPJ objeto, Long id) {
 
@@ -45,17 +58,21 @@ public class FornecedorPJServiceImpl implements FornecedorPJService {
         FornecedorPJ fornecedor = buscarPorId(id);
 
         if (cepService.cepValido(objeto.getCep())) {
-
             copyProperties(objeto, fornecedor, CAMPOS_IGNORADOS);
-
             return fornecedorRepository.save(fornecedor);
         } else {
-            log.error("[ERROR] [criar] [CEP inválido: {}]", objeto.getCep());
-
+            log.error("[ERROR] [atualizar] [CEP inválido: {}]", objeto.getCep());
             throw new IllegalArgumentException("CEP inválido");
         }
     }
 
+    /**
+     * Busca um fornecedor pessoa jurídica pelo seu identificador.
+     *
+     * @param id O identificador do fornecedor pessoa jurídica.
+     * @return O fornecedor pessoa jurídica encontrado.
+     * @throws EntityNotFoundException se o fornecedor pessoa jurídica não for encontrado.
+     */
     @Override
     public FornecedorPJ buscarPorId(Long id) {
 
@@ -65,6 +82,13 @@ public class FornecedorPJServiceImpl implements FornecedorPJService {
                 () -> new EntityNotFoundException("Fornecedor não encontrado"));
     }
 
+    /**
+     * Busca todos os fornecedores pessoa jurídica com paginação.
+     *
+     * @param indice  O índice da página (começando em 0).
+     * @param tamanho O tamanho da página.
+     * @return Uma página de fornecedores pessoa jurídica.
+     */
     @Override
     public Page<FornecedorPJ> buscarTodos(int indice, int tamanho) {
 
@@ -73,6 +97,11 @@ public class FornecedorPJServiceImpl implements FornecedorPJService {
         return fornecedorRepository.findAll(PageRequest.of(indice, tamanho));
     }
 
+    /**
+     * Deleta um fornecedor pessoa jurídica pelo seu identificador.
+     *
+     * @param id O identificador do fornecedor pessoa jurídica a ser deletado.
+     */
     @Override
     public void deletarPorId(Long id) {
 
@@ -83,9 +112,36 @@ public class FornecedorPJServiceImpl implements FornecedorPJService {
         fornecedorRepository.deleteById(id);
     }
 
+    /**
+     * Busca todos os fornecedores pessoa jurídica associados a um identificador de empresa com paginação.
+     *
+     * @param empresaId O identificador da empresa.
+     * @param pagina    O índice da página (começando em 0).
+     * @param tamanho   O tamanho da página.
+     * @return Uma página de fornecedores pessoa jurídica.
+     */
     @Override
     public Page<FornecedorPJ> buscarPorEmpresaId(Long empresaId, int pagina, int tamanho) {
 
+        log.info("[INFO] [buscarPorEmpresaId] [buscando fornecedores - pessoa jurídica por id da empresa: {}]",
+                 empresaId);
+
         return fornecedorRepository.findAllByEmpresasId(empresaId, PageRequest.of(pagina, tamanho));
+    }
+
+    /**
+     * Busca todos os fornecedores pessoa jurídica por CNPJ com paginação.
+     *
+     * @param cnpj    O CNPJ dos fornecedores pessoa jurídica a serem buscados.
+     * @param pagina  O índice da página (começando em 0).
+     * @param tamanho O tamanho da página.
+     * @return Uma página de fornecedores pessoa jurídica.
+     */
+    @Override
+    public Page<FornecedorPJ> buscarPorCNPJ(String cnpj, int pagina, int tamanho) {
+
+        log.info("[INFO] [buscarPorCNPJ] [buscando fornecedores - pessoa jurídica por CNPJ: {}]", cnpj);
+
+        return fornecedorRepository.findAllByCnpj(cnpj, PageRequest.of(pagina, tamanho));
     }
 }

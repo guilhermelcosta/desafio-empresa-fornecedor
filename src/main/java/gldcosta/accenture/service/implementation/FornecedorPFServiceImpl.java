@@ -22,6 +22,13 @@ public class FornecedorPFServiceImpl implements FornecedorPFService {
     private final CEPService cepService;
     private final FornecedorPFRepository fornecedorRepository;
 
+    /**
+     * Cria um novo fornecedor pessoa física.
+     *
+     * @param objeto O fornecedor pessoa física a ser criado.
+     * @return O fornecedor pessoa física criado.
+     * @throws IllegalArgumentException se o CEP fornecido for inválido.
+     */
     @Override
     public FornecedorPF criar(FornecedorPF objeto) {
 
@@ -31,12 +38,18 @@ public class FornecedorPFServiceImpl implements FornecedorPFService {
             return fornecedorRepository.save(objeto);
         else {
             log.error("[ERROR] [criar] [CEP inválido: {}]", objeto.getCep());
-
             throw new IllegalArgumentException("CEP inválido");
         }
-
     }
 
+    /**
+     * Atualiza um fornecedor pessoa física existente.
+     *
+     * @param objeto O fornecedor pessoa física com os novos dados.
+     * @param id     O identificador do fornecedor pessoa física a ser atualizado.
+     * @return O fornecedor pessoa física atualizado.
+     * @throws IllegalArgumentException se o CEP fornecido for inválido.
+     */
     @Override
     public FornecedorPF atualizar(FornecedorPF objeto, Long id) {
 
@@ -45,17 +58,21 @@ public class FornecedorPFServiceImpl implements FornecedorPFService {
         FornecedorPF fornecedor = buscarPorId(id);
 
         if (cepService.cepValido(objeto.getCep())) {
-
             copyProperties(objeto, fornecedor, CAMPOS_IGNORADOS);
-
             return fornecedorRepository.save(fornecedor);
         } else {
-            log.error("[ERROR] [criar] [CEP inválido: {}]", objeto.getCep());
-
+            log.error("[ERROR] [atualizar] [CEP inválido: {}]", objeto.getCep());
             throw new IllegalArgumentException("CEP inválido");
         }
     }
 
+    /**
+     * Busca um fornecedor pessoa física pelo seu identificador.
+     *
+     * @param id O identificador do fornecedor pessoa física.
+     * @return O fornecedor pessoa física encontrado.
+     * @throws EntityNotFoundException se o fornecedor pessoa física não for encontrado.
+     */
     @Override
     public FornecedorPF buscarPorId(Long id) {
 
@@ -65,6 +82,13 @@ public class FornecedorPFServiceImpl implements FornecedorPFService {
                 () -> new EntityNotFoundException("Fornecedor não encontrado"));
     }
 
+    /**
+     * Busca todos os fornecedores pessoa física com paginação.
+     *
+     * @param indice  O índice da página (começando em 0).
+     * @param tamanho O tamanho da página.
+     * @return Uma página de fornecedores pessoa física.
+     */
     @Override
     public Page<FornecedorPF> buscarTodos(int indice, int tamanho) {
 
@@ -73,6 +97,11 @@ public class FornecedorPFServiceImpl implements FornecedorPFService {
         return fornecedorRepository.findAll(PageRequest.of(indice, tamanho));
     }
 
+    /**
+     * Deleta um fornecedor pessoa física pelo seu identificador.
+     *
+     * @param id O identificador do fornecedor pessoa física a ser deletado.
+     */
     @Override
     public void deletarPorId(Long id) {
 
@@ -83,9 +112,36 @@ public class FornecedorPFServiceImpl implements FornecedorPFService {
         fornecedorRepository.deleteById(id);
     }
 
+    /**
+     * Busca todos os fornecedores pessoa física associados a um identificador de empresa com paginação.
+     *
+     * @param empresaId O identificador da empresa.
+     * @param pagina    O índice da página (começando em 0).
+     * @param tamanho   O tamanho da página.
+     * @return Uma página de fornecedores pessoa física.
+     */
     @Override
     public Page<FornecedorPF> buscarPorEmpresaId(Long empresaId, int pagina, int tamanho) {
 
+        log.info("[INFO] [buscarPorEmpresaId] [buscando fornecedores - pessoa física por id da empresa: {}]",
+                 empresaId);
+
         return fornecedorRepository.findAllByEmpresasId(empresaId, PageRequest.of(pagina, tamanho));
+    }
+
+    /**
+     * Busca todos os fornecedores pessoa física por CPF com paginação.
+     *
+     * @param cpf     O CPF dos fornecedores pessoa física a serem buscados.
+     * @param pagina  O índice da página (começando em 0).
+     * @param tamanho O tamanho da página.
+     * @return Uma página de fornecedores pessoa física.
+     */
+    @Override
+    public Page<FornecedorPF> buscarPorCPF(String cpf, int pagina, int tamanho) {
+
+        log.info("[INFO] [buscarPorCPF] [buscando fornecedores - pessoa física por CPF: {}]", cpf);
+
+        return fornecedorRepository.findAllByCpf(cpf, PageRequest.of(pagina, tamanho));
     }
 }

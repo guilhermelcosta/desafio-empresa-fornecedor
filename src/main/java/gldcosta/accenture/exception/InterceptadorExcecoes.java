@@ -19,6 +19,12 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RestControllerAdvice
 public class InterceptadorExcecoes extends DefaultHandlerExceptionResolver {
 
+    /**
+     * Intercepta exceções de entidade não encontrada
+     *
+     * @param e Exceção de entidade não encontrada
+     * @return Resposta de erro
+     */
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> capturarEntityNotFoundException(EntityNotFoundException e) {
@@ -28,6 +34,12 @@ public class InterceptadorExcecoes extends DefaultHandlerExceptionResolver {
         return construirMensagemErro(mensagemErro, NOT_FOUND);
     }
 
+    /**
+     * Intercepta exceções de bad request
+     *
+     * @param e Exceção de bad request
+     * @return Resposta de erro
+     */
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler({MethodArgumentTypeMismatchException.class, HttpMessageNotReadableException.class, ConstraintViolationException.class})
     public ResponseEntity<Object> capturarBadRequest(Exception e) {
@@ -37,6 +49,13 @@ public class InterceptadorExcecoes extends DefaultHandlerExceptionResolver {
         return construirMensagemErro(msgErro, BAD_REQUEST);
     }
 
+    /**
+     * Constrói a mensagem de erro
+     *
+     * @param message    Mensagem de erro
+     * @param httpStatus Status HTTP
+     * @return Resposta de erro
+     */
     private ResponseEntity<Object> construirMensagemErro(String message,
                                                          HttpStatus httpStatus) {
 

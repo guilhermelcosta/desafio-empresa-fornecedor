@@ -23,6 +23,12 @@ public class CEPController {
 
     private final CEPService cepService;
 
+    /**
+     * Retorna os dados de um CEP
+     *
+     * @param cep CEP a ser consultado
+     * @return Dados do CEP
+     */
     @GetMapping("/{cep}")
     public ResponseEntity<Map<String, Object>> dadosCEP(@PathVariable String cep) {
 
