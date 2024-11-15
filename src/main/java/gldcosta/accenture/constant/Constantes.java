@@ -7,7 +7,7 @@ import java.util.List;
 import static java.util.Collections.singletonList;
 
 @UtilityClass
-public class Constants {
+public class Constantes {
 
     public static String[] CAMPOS_IGNORADOS = {"id"};
 

@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
-import static gldcosta.accenture.constant.Constants.*;
+import static gldcosta.accenture.constant.Constantes.*;
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
 import static org.springframework.http.HttpMethod.GET;

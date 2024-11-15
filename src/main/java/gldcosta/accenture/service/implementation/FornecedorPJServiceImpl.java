@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import static gldcosta.accenture.constant.Constants.CAMPOS_IGNORADOS;
+import static gldcosta.accenture.constant.Constantes.CAMPOS_IGNORADOS;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Slf4j
