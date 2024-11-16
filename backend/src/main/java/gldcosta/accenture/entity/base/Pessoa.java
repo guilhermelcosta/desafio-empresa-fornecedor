@@ -11,7 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public abstract class Pessoa extends EntidadeBase {
 
     @Column(nullable = false)

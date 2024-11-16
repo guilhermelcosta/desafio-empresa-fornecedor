@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @MappedSuperclass
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public abstract class PessoaFisica extends Pessoa {
 
     @CPF

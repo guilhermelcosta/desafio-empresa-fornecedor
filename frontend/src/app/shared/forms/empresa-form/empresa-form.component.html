@@ -1,0 +1,26 @@
+<div class="container">
+  <mat-form-field>
+    <mat-label>Nome fantasia</mat-label>
+    <input matInput [(ngModel)]="empresa.nomeFantasia">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>E-mail</mat-label>
+    <input matInput [(ngModel)]="empresa.email" [mask]="'00.000.000/0000-00'">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>CNPJ</mat-label>
+    <input matInput [(ngModel)]="empresa.cnpj" [mask]="'00.000.000/0000-00'">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>CEP</mat-label>
+    <input matInput [(ngModel)]="empresa.cep" [mask]="'00000-000'">
+  </mat-form-field>
+
+  <div class="btn-criar-empresa">
+    <button mat-button class="btn-cancelar mat-mdc-raised-button" (click)="aoCancelar()">Cancelar</button>
+    <button mat-button class="btn-confirmar mat-mdc-raised-button" (click)="aoConfirmar()">Confirmar</button>
+  </div>
+</div>

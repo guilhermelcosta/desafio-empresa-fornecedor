@@ -18,7 +18,6 @@ import static jakarta.persistence.FetchType.EAGER;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "empresa")
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Empresa extends PessoaJuridica {
 
     @ManyToMany(fetch = EAGER)

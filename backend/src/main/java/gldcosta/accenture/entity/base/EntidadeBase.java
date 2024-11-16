@@ -21,7 +21,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 @MappedSuperclass
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public abstract class EntidadeBase implements Serializable {
 
     @Serial

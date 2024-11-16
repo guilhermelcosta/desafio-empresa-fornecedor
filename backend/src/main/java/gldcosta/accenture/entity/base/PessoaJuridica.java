@@ -13,7 +13,6 @@ import org.hibernate.validator.constraints.br.CNPJ;
 @Getter
 @Setter
 @MappedSuperclass
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public abstract class PessoaJuridica extends Pessoa {
 
     @CNPJ

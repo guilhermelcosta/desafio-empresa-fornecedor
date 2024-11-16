@@ -18,7 +18,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "fornecedor_pj")
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class FornecedorPJ extends PessoaJuridica {
 
     @JsonIgnore

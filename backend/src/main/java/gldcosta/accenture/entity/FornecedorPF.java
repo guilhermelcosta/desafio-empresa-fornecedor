@@ -16,7 +16,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "fornecedor_pf")
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class FornecedorPF extends PessoaFisica {
 
     @JsonIgnore
