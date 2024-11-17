@@ -1,14 +1,14 @@
 <form #form="ngForm" class="container">
   <mat-form-field>
-    <mat-label>Nome fantasia</mat-label>
-    <input [(ngModel)]="fornecedorPJ.nomeFantasia" matInput name="nomeFantasia" required>
+    <mat-label>Nome</mat-label>
+    <input [(ngModel)]="fornecedorPf.nome" matInput name="nome" required>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>E-mail</mat-label>
     <input
       #email="ngModel"
-      [(ngModel)]="fornecedorPJ.email"
+      [(ngModel)]="fornecedorPf.email"
       matInput
       name="email"
       pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.(com|com\.br)$"
@@ -20,16 +20,28 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>CNPJ</mat-label>
-    <input [(ngModel)]="fornecedorPJ.cnpj" [mask]="'00.000.000/0000-00'" matInput name="cnpj" required>
+    <mat-label>CPF</mat-label>
+    <input [(ngModel)]="fornecedorPf.cpf" [mask]="'000.000.000-00'" matInput name="cpf" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>RG</mat-label>
+    <input [(ngModel)]="fornecedorPf.rg" [mask]="'00.000.000-0'" matInput name="rg" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Data de Nascimento</mat-label>
+    <input [(ngModel)]="fornecedorPf.dataNascimento" [matDatepicker]="picker" matInput name="dataNascimento" required>
+    <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>CEP</mat-label>
-    <input [(ngModel)]="fornecedorPJ.cep" [mask]="'00000-000'" matInput name="cep" required>
+    <input [(ngModel)]="fornecedorPf.cep" [mask]="'00000-000'" matInput name="cep" required>
   </mat-form-field>
 
-  <div class="btn-criar-fornecedor-pj">
+  <div class="btn-criar-fornecedor-pf">
     <button (click)="aoCancelar()" class="btn-cancelar mat-mdc-raised-button" color="warn" mat-button>Cancelar</button>
     <button
       (click)="aoConfirmar()"

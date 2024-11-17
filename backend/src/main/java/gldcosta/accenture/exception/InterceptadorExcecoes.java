@@ -90,7 +90,7 @@ public class InterceptadorExcecoes extends DefaultHandlerExceptionResolver {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> capturarPSQLException(DataIntegrityViolationException e) {
 
-        String mensagemErro = "Erro de chave duplicada: CPF/CNPJ já cadastrado";
+        String mensagemErro = "Erro de chave duplicada: CPF/CNPJ/RG já cadastrado";
 
         return construirMensagemErro(mensagemErro, CONFLICT);
     }

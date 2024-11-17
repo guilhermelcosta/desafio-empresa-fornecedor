@@ -1,4 +1,4 @@
-<div class="btn-criar-empresa">
+<div class="btn-criar-fornecedor-pj">
   <button (click)="abrirDialog()" class="mat-mdc-raised-button" mat-button>Criar fornecedor</button>
 </div>
 
@@ -46,7 +46,7 @@
     <tr *matRowDef="let empresa; columns: colunasTabela;" mat-row></tr>
   </table>
 
-  <mat-paginator (page)="buscarFornecedores($event.pageIndex, $event.pageSize)"
+  <mat-paginator (page)="buscarFornecedoresPj($event.pageIndex, $event.pageSize)"
                  [length]="totalItems"
                  [pageSizeOptions]="[5, 10, 20]"
                  [pageSize]="5"

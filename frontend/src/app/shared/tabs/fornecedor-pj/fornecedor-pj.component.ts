@@ -16,10 +16,8 @@ import {
 import {MatIcon} from "@angular/material/icon";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort, MatSortHeader} from "@angular/material/sort";
-import {Empresa} from '../../model/empresa';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {EmpresaFormComponent} from '../../forms/empresa-form/empresa-form.component';
 import {FornecedorPjService} from '../../services/fornecedor-pj.service';
 import {FornecedorPjFormComponent} from '../../forms/fornecedor-pj-form/fornecedor-pj-form.component';
 import {FornecedorPj} from '../../model/fornecedor-pj';
@@ -67,7 +65,7 @@ export class FornecedorPjComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.buscarFornecedores();
+    this.buscarFornecedoresPj();
   }
 
   public ngAfterViewInit(): void {
@@ -76,7 +74,7 @@ export class FornecedorPjComponent implements OnInit {
   }
 
   public abrirDialog(fornecedorPj?: FornecedorPj): void {
-    this.dialog.open(FornecedorPjFormComponent, {data: fornecedorPj || new FornecedorPj()}).afterClosed().subscribe(() => this.buscarFornecedores());
+    this.dialog.open(FornecedorPjFormComponent, {data: fornecedorPj || new FornecedorPj()}).afterClosed().subscribe(() => this.buscarFornecedoresPj());
   }
 
   public deletarEmpresa(fornecedorPj: FornecedorPj) {
@@ -85,12 +83,12 @@ export class FornecedorPjComponent implements OnInit {
     });
 
     snackBar.onAction().subscribe(() => {
-      this.fornecedorPjService.deletarFornecedorPj(fornecedorPj).subscribe(() => this.buscarFornecedores());
+      this.fornecedorPjService.deletarFornecedorPj(fornecedorPj).subscribe(() => this.buscarFornecedoresPj());
     });
   }
 
-  protected buscarFornecedores(indice?: number, tamanho?: number): void {
-    this.fornecedorPjService.buscarFornecedores(indice, tamanho).subscribe(
+  protected buscarFornecedoresPj(indice?: number, tamanho?: number): void {
+    this.fornecedorPjService.buscarFornecedoresPj(indice, tamanho).subscribe(
       (data: any) => {
         this.dados.data = data.content;
         this.totalItems = data.page.totalElements;

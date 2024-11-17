@@ -12,7 +12,7 @@ export class FornecedorPjService {
   constructor(private http: HttpClient) {
   }
 
-  public buscarFornecedores(indice: number = 0, itensPorPagina: number = 5): Observable<any> {
+  public buscarFornecedoresPj(indice: number = 0, itensPorPagina: number = 5): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/${environment.fornecedorPjRoute}?indice=${indice}&tamanho=${itensPorPagina}`);
   }
 
