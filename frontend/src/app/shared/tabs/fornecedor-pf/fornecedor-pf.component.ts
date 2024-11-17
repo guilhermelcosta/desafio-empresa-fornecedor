@@ -29,6 +29,7 @@ import {MatFormField, MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {NgIf} from '@angular/common';
+import {NgxMaskDirective, provideNgxMask} from 'ngx-mask';
 
 @Component({
   selector: 'app-fornecedor-pf',
@@ -61,8 +62,10 @@ import {NgIf} from '@angular/common';
     FormsModule,
     MatButtonModule,
     MatIconModule,
-    NgIf
+    NgIf,
+    NgxMaskDirective
   ],
+  providers: [provideNgxMask()],
   templateUrl: './fornecedor-pf.component.html',
   styleUrl: './fornecedor-pf.component.css'
 })

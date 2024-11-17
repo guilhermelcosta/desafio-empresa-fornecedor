@@ -27,6 +27,8 @@ import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {NgIf} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgxMaskDirective, provideNgxMask} from 'ngx-mask';
+import {provideNativeDateAdapter} from '@angular/material/core';
 
 @Component({
   selector: 'app-fornecedor-pj',
@@ -56,8 +58,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatSuffix,
     NgIf,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxMaskDirective
   ],
+  providers: [provideNgxMask()],
   templateUrl: './fornecedor-pj.component.html',
   styleUrl: './fornecedor-pj.component.css'
 })

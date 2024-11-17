@@ -4,7 +4,8 @@
 
 <mat-form-field class="buscar-cpf">
   <mat-label>Buscar CPF</mat-label>
-  <input (blur)="cpfDigitado === '' && buscarFornecedoresPf()" [(ngModel)]="cpfDigitado" class="input-buscar-cpf" matInput
+  <input (blur)="cpfDigitado === '' && buscarFornecedoresPf()" [(ngModel)]="cpfDigitado" [mask]="'000.000.000-00'"
+         class="input-buscar-cpf" matInput
          type="text">
   <button (click)="buscarFornecedoresPorCpf(cpfDigitado)" *ngIf="cpfDigitado" aria-label="Search" mat-icon-button
           matSuffix>

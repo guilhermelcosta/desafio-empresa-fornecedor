@@ -4,7 +4,8 @@
 
 <mat-form-field class="buscar-cnpj">
   <mat-label>Buscar CNPJ</mat-label>
-  <input (blur)="cpfDigitado === '' && buscarFornecedoresPj()" [(ngModel)]="cpfDigitado" class="input-buscar-cpf" matInput
+  <input (blur)="cpfDigitado === '' && buscarFornecedoresPj()" [(ngModel)]="cpfDigitado" [mask]="'00.000.000/0000-00'"
+         class="input-buscar-cpf" matInput
          type="text">
   <button (click)="buscarFornecedoresPorCpf(cpfDigitado)" *ngIf="cpfDigitado" aria-label="Search" mat-icon-button
           matSuffix>
