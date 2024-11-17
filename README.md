@@ -19,6 +19,7 @@ Este projeto foi desenvolvido como parte de um desafio para avaliar habilidades 
   - Angular 18
   - TypeScript
   - HTML e CSS
+  - Angular Material
 - **Outros**:
   - Git
   - Docker
