@@ -1,1 +1,55 @@
-<p>fornecedor-pj works!</p>
+<div class="btn-criar-empresa">
+  <button (click)="abrirDialog()" class="mat-mdc-raised-button" mat-button>Criar fornecedor</button>
+</div>
+
+<div class="mat-elevation-z8 tabela">
+  <table [dataSource]="dados" mat-table matSort>
+
+    <ng-container matColumnDef="id">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
+      <td *matCellDef="let elemento" mat-cell> {{ elemento.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="cep">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>CEP</th>
+      <td *matCellDef="let elemento" mat-cell> {{ elemento.cep | cep}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="cnpj">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>CNPJ</th>
+      <td *matCellDef="let elemento" mat-cell> {{ elemento.cnpj | cnpj }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="nomeFantasia">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Nome fantasia</th>
+      <td *matCellDef="let elemento" mat-cell> {{ elemento.nomeFantasia }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>E-mail</th>
+      <td *matCellDef="let elemento" mat-cell> {{ elemento.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="acoes">
+      <th *matHeaderCellDef mat-header-cell>Ações</th>
+      <td *matCellDef="let elemento" mat-cell>
+        <button (click)="deletarEmpresa(elemento)" mat-icon-button>
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button (click)="abrirDialog(elemento)" mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="colunasTabela" mat-header-row></tr>
+    <tr *matRowDef="let empresa; columns: colunasTabela;" mat-row></tr>
+  </table>
+
+  <mat-paginator (page)="buscarFornecedores($event.pageIndex, $event.pageSize)"
+                 [length]="totalItems"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 [pageSize]="5"
+                 showFirstLastButtons>
+  </mat-paginator>
+</div>

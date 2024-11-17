@@ -14,7 +14,8 @@ import static org.springframework.http.ResponseEntity.ok;
  * Controlador base para operações CRUD (Create, Read, Update, Delete).
  * Esta classe abstrata fornece endpoints RESTful para gerenciar entidades genéricas.
  *
- * @param <I>  O tipo da entidade.
+ * @param <I>  O tipo de entrada da entidade.
+ * @param <O>  O tipo de saída da entidade.
  * @param <ID> O tipo do identificador da entidade.
  */
 @AllArgsConstructor

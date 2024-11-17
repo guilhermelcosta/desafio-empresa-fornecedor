@@ -1,0 +1,14 @@
+.mat-mdc-row:hover .mat-mdc-cell,
+.mat-mdc-row:hover .mat-mdc-cell .mat-icon {
+  background-color: lightslategrey;
+  color: white;
+}
+
+.btn-criar-empresa {
+  margin: 1rem 0;
+}
+
+.tabela {
+  border-radius: 10px;
+}
+

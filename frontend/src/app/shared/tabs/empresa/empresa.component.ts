@@ -21,6 +21,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatSort, MatSortModule} from '@angular/material/sort';
+import {CepPipe} from '../../pipes/cep.pipe';
+import {CnpjPipe} from '../../pipes/cnpj.pipe';
 
 @Component({
   selector: 'app-empresa',
@@ -42,6 +44,8 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
     MatIconButton,
     MatSort,
     MatSortModule,
+    CepPipe,
+    CnpjPipe,
   ],
   templateUrl: './empresa.component.html',
   styleUrl: './empresa.component.css'
@@ -86,7 +90,6 @@ export class EmpresaComponent implements OnInit {
   protected buscarEmpresas(indice?: number, tamanho?: number): void {
     this.empresaService.buscarEmpresas(indice, tamanho).subscribe(
       (data: any) => {
-        console.log(data);
         this.dados.data = data.content;
         this.totalItems = data.page.totalElements;
         this.paginator.pageIndex = data.page.number;
