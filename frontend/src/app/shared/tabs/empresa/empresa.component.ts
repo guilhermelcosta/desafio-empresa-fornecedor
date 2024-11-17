@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {EmpresaService} from '../../services/empresa.service';
 import {
   MatCell,
@@ -10,60 +10,82 @@ import {
   MatHeaderRowDef,
   MatRow,
   MatRowDef,
-  MatTable
+  MatTable,
+  MatTableDataSource
 } from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {Empresa} from '../../model/empresa';
-import {MatButton} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {EmpresaFormComponent} from '../../forms/empresa-form/empresa-form.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatButton, MatIconButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-empresa',
   standalone: true,
   imports: [
-    MatTable,
-    MatColumnDef,
-    MatHeaderCell,
-    MatCellDef,
-    MatCell,
-    MatHeaderCellDef,
-    MatPaginator,
     MatHeaderRowDef,
     MatHeaderRow,
     MatRowDef,
     MatRow,
-    MatButton
+    MatButton,
+    MatTable,
+    MatPaginator,
+    MatHeaderCellDef,
+    MatColumnDef,
+    MatCellDef,
+    MatHeaderCell,
+    MatCell,
+    MatIcon,
+    MatIconButton,
   ],
   templateUrl: './empresa.component.html',
   styleUrl: './empresa.component.css'
 })
 export class EmpresaComponent implements OnInit {
 
-  public colunasTabela = ['id', 'cep', 'cnpj', 'nomeFantasia', 'email'];
-  public dados: Empresa[] = [];
+  public colunasTabela = ['id', 'cep', 'cnpj', 'nomeFantasia', 'email', 'acoes'];
+  public dados = new MatTableDataSource<Empresa>();
+  public totalItems = 0;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private empresaService: EmpresaService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
+    this.dados.paginator = this.paginator;
     this.buscarEmpresas();
   }
 
-  public abrirDialog(): void {
-    this.dialog.open(EmpresaFormComponent).afterClosed().subscribe(() => this.buscarEmpresas());
+  public abrirDialog(empresa?: Empresa): void {
+    this.dialog.open(EmpresaFormComponent, {data: empresa || new Empresa()}).afterClosed().subscribe(() => this.buscarEmpresas());
   }
 
-  private buscarEmpresas(): void {
-    this.empresaService.buscarEmpresas().subscribe(
+  public deletarEmpresa(empresa: Empresa) {
+    const snackBar = this.snackBar.open('Confirma que deseja deletar a empresa?', 'Confirmar', {
+      duration: 5000,
+    });
+
+    snackBar.onAction().subscribe(() => {
+      this.empresaService.deletarEmpresa(empresa).subscribe(() => this.buscarEmpresas());
+    });
+  }
+
+  protected buscarEmpresas(indice?: number, tamanho?: number): void {
+    this.empresaService.buscarEmpresas(indice, tamanho).subscribe(
       (data: any) => {
-        this.dados = data.content;
+        this.dados.data = data.content;
+        this.totalItems = data.page.totalElements;
+        this.paginator.pageIndex = data.page.number;
+        this.paginator.length = data.page.totalElements;
       },
       (error: any) => {
         console.error(error);
       }
     );
   }
-
 }
