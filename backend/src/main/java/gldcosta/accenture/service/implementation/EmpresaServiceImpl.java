@@ -49,7 +49,12 @@ public class EmpresaServiceImpl implements EmpresaService {
 
         log.info("[INFO] [criar] [criando empresa: {}]", objeto);
 
-        return empresaRepository.save(objeto);
+        if (cepService.cepValido(objeto.getCep()))
+            return empresaRepository.save(objeto);
+        else {
+            log.error("[ERROR] [criar] [CEP inválido: {}]", objeto.getCep());
+            throw new IllegalArgumentException("CEP inválido");
+        }
     }
 
     /**
@@ -66,9 +71,13 @@ public class EmpresaServiceImpl implements EmpresaService {
 
         Empresa empresa = buscarPorId(id);
 
-        copyProperties(objeto, empresa, CAMPOS_IGNORADOS);
-
-        return empresaRepository.save(empresa);
+        if (cepService.cepValido(objeto.getCep())) {
+            copyProperties(objeto, empresa, CAMPOS_IGNORADOS);
+            return empresaRepository.save(empresa);
+        } else {
+            log.error("[ERROR] [criar] [CEP inválido: {}]", objeto.getCep());
+            throw new IllegalArgumentException("CEP inválido");
+        }
     }
 
     /**
