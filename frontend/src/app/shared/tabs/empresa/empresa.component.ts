@@ -20,6 +20,7 @@ import {EmpresaFormComponent} from '../../forms/empresa-form/empresa-form.compon
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
+import {MatSort, MatSortModule} from '@angular/material/sort';
 
 @Component({
   selector: 'app-empresa',
@@ -39,6 +40,8 @@ import {MatIcon} from '@angular/material/icon';
     MatCell,
     MatIcon,
     MatIconButton,
+    MatSort,
+    MatSortModule,
   ],
   templateUrl: './empresa.component.html',
   styleUrl: './empresa.component.css'
@@ -50,15 +53,20 @@ export class EmpresaComponent implements OnInit {
   public totalItems = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private empresaService: EmpresaService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
   }
 
-  ngOnInit(): void {
-    this.dados.paginator = this.paginator;
+  public ngOnInit(): void {
     this.buscarEmpresas();
+  }
+
+  public ngAfterViewInit(): void {
+    this.dados.sort = this.sort;
+    this.dados.paginator = this.paginator;
   }
 
   public abrirDialog(empresa?: Empresa): void {
@@ -78,6 +86,7 @@ export class EmpresaComponent implements OnInit {
   protected buscarEmpresas(indice?: number, tamanho?: number): void {
     this.empresaService.buscarEmpresas(indice, tamanho).subscribe(
       (data: any) => {
+        console.log(data);
         this.dados.data = data.content;
         this.totalItems = data.page.totalElements;
         this.paginator.pageIndex = data.page.number;
