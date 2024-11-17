@@ -1,0 +1,127 @@
+<div class="container">
+  <h2>Empresa: {{ empresa.nomeFantasia }}</h2>
+  <h3>E-mail: {{ empresa.email }}</h3>
+  <h3>CNPJ: {{ empresa.cnpj }}</h3>
+  <h3>CEP: {{ empresa.cep }}</h3>
+
+  <div class="btn-criar-fornecedor">
+    <button (click)="abrirDialog()" class="mat-mdc-raised-button" mat-button>Adicionar fornecedor</button>
+  </div>
+
+  <h2>PF</h2>
+
+  <div class="mat-elevation-z8 tabela">
+
+    <table [dataSource]="fornecedoresPf" mat-table matSort>
+
+      <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
+        <td *matCellDef="let elemento" mat-cell> {{ elemento.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cep">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>CEP</th>
+        <td *matCellDef="let elemento" mat-cell> {{ elemento.cep | cep }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cpf">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>CPF</th>
+        <td *matCellDef="let elemento" mat-cell> {{ elemento.cpf | cpf }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="rg">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>RG</th>
+        <td *matCellDef="let elemento" mat-cell> {{ elemento.rg }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nome">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Nome</th>
+        <td *matCellDef="let elemento" mat-cell> {{ elemento.nome }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>E-mail</th>
+        <td *matCellDef="let elemento" mat-cell> {{ elemento.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataNascimento">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Data de nascimento</th>
+        <td *matCellDef="let elemento"
+            mat-cell> {{ elemento.dataNascimento | dataDdmmyyyy }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acoes">
+        <th *matHeaderCellDef mat-header-cell>Ações</th>
+        <td *matCellDef="let elemento" mat-cell>
+          <button (click)="atualizarListaFornecedoresPf(elemento)" mat-icon-button>
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="colunasTabelaFornecedoresPf" mat-header-row></tr>
+      <tr *matRowDef="let empresa; columns: colunasTabelaFornecedoresPf;" mat-row></tr>
+    </table>
+
+    <mat-paginator (page)="buscarFornecedoresPfPorEmpresa(empresa.id)"
+                   [length]="totalItems"
+                   [pageSizeOptions]="[5, 10, 20]"
+                   [pageSize]="5"
+                   showFirstLastButtons>
+    </mat-paginator>
+  </div>
+
+  <h2>PJ</h2>
+
+
+  <div class="mat-elevation-z8 tabela">
+    <table [dataSource]="fornecedoresPj" mat-table matSort>
+
+      <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
+        <td *matCellDef="let elemento" mat-cell> {{ elemento.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cep">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>CEP</th>
+        <td *matCellDef="let elemento" mat-cell> {{ elemento.cep | cep }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cnpj">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>CNPJ</th>
+        <td *matCellDef="let elemento" mat-cell> {{ elemento.cnpj | cnpj }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nomeFantasia">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Nome fantasia</th>
+        <td *matCellDef="let elemento" mat-cell> {{ elemento.nomeFantasia }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>E-mail</th>
+        <td *matCellDef="let elemento" mat-cell> {{ elemento.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="acoes">
+        <th *matHeaderCellDef mat-header-cell>Ações</th>
+        <td *matCellDef="let elemento" mat-cell>
+          <button (click)="atualizarListaFornecedoresPj(elemento)" mat-icon-button>
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="colunasTabelaFornecedoresPJ" mat-header-row></tr>
+      <tr *matRowDef="let empresa; columns: colunasTabelaFornecedoresPJ;" mat-row></tr>
+    </table>
+
+    <mat-paginator (page)="buscarFornecedoresPjPorEmpresa(empresa.id)"
+                   [length]="totalItems"
+                   [pageSizeOptions]="[5, 10, 20]"
+                   [pageSize]="5"
+                   showFirstLastButtons>
+    </mat-paginator>
+  </div>
+
+</div>

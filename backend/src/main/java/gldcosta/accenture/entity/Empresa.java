@@ -21,7 +21,6 @@ import static jakarta.persistence.FetchType.EAGER;
 public class Empresa extends PessoaJuridica {
 
     @ManyToMany(fetch = EAGER)
-    @JsonIgnore
     @JoinTable(
             name = "empresa_fornecedor_pf",
             joinColumns = @JoinColumn(name = "empresa_id"),
@@ -30,7 +29,6 @@ public class Empresa extends PessoaJuridica {
     private Set<FornecedorPF> fornecedoresPF;
 
     @ManyToMany(fetch = EAGER)
-    @JsonIgnore
     @JoinTable(
             name = "empresa_fornecedor_pj",
             joinColumns = @JoinColumn(name = "empresa_id"),

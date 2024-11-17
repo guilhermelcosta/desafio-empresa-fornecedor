@@ -1,0 +1,32 @@
+<div class="seletor">
+  <div>
+    <mat-button-toggle-group (change)="aoMudarTipoFornecedor($event.value)"
+                             aria-label="Tipo de Fornecedor"
+                             name="tipoFornecedor">
+      <mat-button-toggle [checked]="tipoFornecedorSelecionado === TipoFornecedor.PJ" [value]="TipoFornecedor.PJ">Pessoa
+        jurídica
+      </mat-button-toggle>
+      <mat-button-toggle [checked]="tipoFornecedorSelecionado === TipoFornecedor.PF" [value]="TipoFornecedor.PF">Pessoa
+        física
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <mat-selection-list #fornecedoresSelecionados>
+    <mat-list-option *ngFor="let fornecedor of fornecedores" [value]="fornecedor">
+      {{ construirNome(fornecedor) }}
+    </mat-list-option>
+  </mat-selection-list>
+
+  <div class="btn-selecionar-fornecedores">
+    <button (click)="aoCancelar()" class="btn-cancelar mat-mdc-raised-button" color="warn" mat-button>Cancelar</button>
+    <button
+      (click)="aoConfirmar(fornecedoresSelecionados.selectedOptions.selected)"
+      class="btn-confirmar mat-mdc-raised-button"
+      color="success"
+      mat-button>
+      Confirmar
+    </button>
+  </div>
+
+</div>

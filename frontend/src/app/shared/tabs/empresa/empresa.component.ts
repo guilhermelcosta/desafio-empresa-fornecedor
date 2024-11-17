@@ -16,13 +16,14 @@ import {
 import {MatPaginator} from '@angular/material/paginator';
 import {Empresa} from '../../model/empresa';
 import {MatDialog} from '@angular/material/dialog';
-import {EmpresaFormComponent} from '../../forms/empresa-form/empresa-form.component';
+import {EmpresaFormComponent} from '../../dialog/empresa-form/empresa-form.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {CepPipe} from '../../pipes/cep.pipe';
 import {CnpjPipe} from '../../pipes/cnpj.pipe';
+import {Router, RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-empresa',
@@ -46,6 +47,7 @@ import {CnpjPipe} from '../../pipes/cnpj.pipe';
     MatSortModule,
     CepPipe,
     CnpjPipe,
+    RouterModule
   ],
   templateUrl: './empresa.component.html',
   styleUrl: './empresa.component.css'
@@ -61,7 +63,8 @@ export class EmpresaComponent implements OnInit {
 
   constructor(private empresaService: EmpresaService,
               private dialog: MatDialog,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private router: Router) {
   }
 
   public ngOnInit(): void {
@@ -85,6 +88,11 @@ export class EmpresaComponent implements OnInit {
     snackBar.onAction().subscribe(() => {
       this.empresaService.deletarEmpresa(empresa).subscribe(() => this.buscarEmpresas());
     });
+  }
+
+  public redirecionarListaFornecedor(elemento: any): void {
+    this.router.navigate(['/lista-fornecedor-empresa', elemento.id])
+      .then(success => success);
   }
 
   protected buscarEmpresas(indice?: number, tamanho?: number): void {

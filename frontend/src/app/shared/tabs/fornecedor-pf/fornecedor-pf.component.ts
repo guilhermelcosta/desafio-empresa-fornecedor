@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CepPipe} from "../../pipes/cep.pipe";
 import {MatButton, MatButtonModule, MatIconButton} from "@angular/material/button";
 import {
@@ -22,7 +22,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {FornecedorPf} from '../../model/fornecedor-pf';
 import {FornecedorPfService} from '../../services/fornecedor-pf.service';
 import {CpfPipe} from '../../pipes/cpf.pipe';
-import {FornecedorPfFormComponent} from '../../forms/fornecedor-pf-form/fornecedor-pf-form.component';
+import {FornecedorPfFormComponent} from '../../dialog/fornecedor-pf-form/fornecedor-pf-form.component';
 import {DataDdmmyyyyPipe} from '../../pipes/data-ddmmyyyy.pipe';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatFormField, MatFormFieldModule} from '@angular/material/form-field';
@@ -69,7 +69,7 @@ import {NgxMaskDirective, provideNgxMask} from 'ngx-mask';
   templateUrl: './fornecedor-pf.component.html',
   styleUrl: './fornecedor-pf.component.css'
 })
-export class FornecedorPfComponent {
+export class FornecedorPfComponent implements OnInit{
 
   public colunasTabela = ['id', 'cep', 'cpf', 'rg', 'dataNascimento', 'nome', 'email', 'acoes'];
   public dados = new MatTableDataSource<FornecedorPf>();
@@ -123,28 +123,28 @@ export class FornecedorPfComponent {
   public buscarFornecedoresPorCpf(cpfDigitado: string) {
     const cpfLimpo = this.limparCpf(cpfDigitado);
     this.fornecedorPfService.buscarFornecedoresPorCpf(cpfLimpo).subscribe(
-      (data: any) => {
-        this.dados.data = data.content;
-        this.totalItems = data.page.totalElements;
-        this.paginator.pageIndex = data.page.number;
-        this.paginator.length = data.page.totalElements;
+      (dados: any) => {
+        this.dados.data = dados.content;
+        this.totalItems = dados.page.totalElements;
+        this.paginator.pageIndex = dados.page.number;
+        this.paginator.length = dados.page.totalElements;
       },
-      (error: any) => {
-        console.error(error);
+      (erro: any) => {
+        console.error(erro);
       }
     );
   }
 
   protected buscarFornecedoresPf(indice?: number, tamanho?: number): void {
     this.fornecedorPfService.buscarFornecedoresPf(indice, tamanho).subscribe(
-      (data: any) => {
-        this.dados.data = data.content;
-        this.totalItems = data.page.totalElements;
-        this.paginator.pageIndex = data.page.number;
-        this.paginator.length = data.page.totalElements;
+      (dados: any) => {
+        this.dados.data = dados.content;
+        this.totalItems = dados.page.totalElements;
+        this.paginator.pageIndex = dados.page.number;
+        this.paginator.length = dados.page.totalElements;
       },
-      (error: any) => {
-        console.error(error);
+      (erro: any) => {
+        console.error(erro);
       }
     );
   }

@@ -1,18 +1,18 @@
 <div class="container">
   <mat-tab-group>
+    <mat-tab label="Empresa">
+      <app-empresa></app-empresa>
+    </mat-tab>
+
     <mat-tab label="Fornecedor">
       <mat-button-toggle-group (change)="atualizarTipoFornecedorSelecionado($event.value)"
                                aria-label="Tipo de Fornecedor"
                                name="tipoFornecedor">
-        <mat-button-toggle checked [value]="TipoFornecedor.PJ">Pessoa jurídica</mat-button-toggle>
+        <mat-button-toggle [value]="TipoFornecedor.PJ" checked>Pessoa jurídica</mat-button-toggle>
         <mat-button-toggle [value]="TipoFornecedor.PF">Pessoa física</mat-button-toggle>
       </mat-button-toggle-group>
       <app-fornecedor-pj *ngIf="tipoFornecedor === TipoFornecedor.PJ"></app-fornecedor-pj>
       <app-fornecedor-pf *ngIf="tipoFornecedor === TipoFornecedor.PF"></app-fornecedor-pf>
-    </mat-tab>
-
-    <mat-tab label="Empresa">
-      <app-empresa></app-empresa>
     </mat-tab>
   </mat-tab-group>
 </div>

@@ -35,4 +35,8 @@ export class FornecedorPfService {
   public deletarFornecedorPf(fornecedorPf: FornecedorPf): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/${environment.fornecedorPfRoute}/${fornecedorPf.id}`);
   }
+
+  public buscarFornecedoresPfPorEmpresa(idEmpresa: number) {
+    return this.http.get<any>(`${environment.apiUrl}/${environment.fornecedorPfRoute}/empresa/${idEmpresa}`);
+  }
 }

@@ -19,7 +19,7 @@ import {MatSort, MatSortHeader} from "@angular/material/sort";
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {FornecedorPjService} from '../../services/fornecedor-pj.service';
-import {FornecedorPjFormComponent} from '../../forms/fornecedor-pj-form/fornecedor-pj-form.component';
+import {FornecedorPjFormComponent} from '../../dialog/fornecedor-pj-form/fornecedor-pj-form.component';
 import {FornecedorPj} from '../../model/fornecedor-pj';
 import {CnpjPipe} from '../../pipes/cnpj.pipe';
 import {CepPipe} from '../../pipes/cep.pipe';
