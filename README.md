@@ -2,7 +2,7 @@
 
 ## Descrição do Projeto
 
-Este projeto foi desenvolvido como parte de um desafio para avaliar habilidades de desenvolvimento Full-Stack, abordando tanto aspectos técnicos quanto estéticos. O objetivo é implementar um sistema que permita gerenciar **empresas** e **fornecedores**, atendendo aos requisitos funcionais e regras de negócio especificados.
+Este projeto foi desenvolvido como parte de um desafio para avaliar habilidades de desenvolvimento Full-Stack. O objetivo é implementar um sistema que permita gerenciar **empresas** e **fornecedores**, atendendo aos requisitos funcionais e regras de negócio especificados.
 
 ---
 
