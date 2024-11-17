@@ -11,13 +11,3 @@
   display: flex;
   gap: 16px;
 }
-
-.btn-confirmar {
-  background-color: blue;
-  color: white;
-}
-
-.btn-cancelar {
-  background-color: red;
-  color: white;
-}

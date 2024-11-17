@@ -1,26 +1,43 @@
-<div class="container">
+<form #form="ngForm" class="container">
   <mat-form-field>
     <mat-label>Nome fantasia</mat-label>
-    <input matInput [(ngModel)]="empresa.nomeFantasia">
+    <input [(ngModel)]="empresa.nomeFantasia" matInput name="nomeFantasia" required>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>E-mail</mat-label>
-    <input matInput [(ngModel)]="empresa.email" [mask]="'00.000.000/0000-00'">
+    <input
+      #email="ngModel"
+      [(ngModel)]="empresa.email"
+      matInput
+      name="email"
+      pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.(com|com\.br)$"
+      required>
+    <mat-icon [matTooltip]="'Formatos aceitos: xxx@xxx.com ou xxx@xxx.com.br'" matSuffix>info</mat-icon>
+    <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
+      Por favor, insira um e-mail válido.
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>CNPJ</mat-label>
-    <input matInput [(ngModel)]="empresa.cnpj" [mask]="'00.000.000/0000-00'">
+    <input [(ngModel)]="empresa.cnpj" [mask]="'00.000.000/0000-00'" matInput name="cnpj" required>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>CEP</mat-label>
-    <input matInput [(ngModel)]="empresa.cep" [mask]="'00000-000'">
+    <input [(ngModel)]="empresa.cep" [mask]="'00000-000'" matInput name="cep" required>
   </mat-form-field>
 
   <div class="btn-criar-empresa">
-    <button mat-button class="btn-cancelar mat-mdc-raised-button" (click)="aoCancelar()">Cancelar</button>
-    <button mat-button class="btn-confirmar mat-mdc-raised-button" (click)="aoConfirmar()">Confirmar</button>
+    <button (click)="aoCancelar()" class="btn-cancelar mat-mdc-raised-button" color="warn" mat-button>Cancelar</button>
+    <button
+      (click)="aoConfirmar()"
+      [disabled]="!form.valid"
+      class="btn-confirmar mat-mdc-raised-button"
+      color="success"
+      mat-button>
+      Confirmar
+    </button>
   </div>
-</div>
+</form>
