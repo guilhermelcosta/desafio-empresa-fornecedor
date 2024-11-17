@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {CepPipe} from "../../pipes/cep.pipe";
-import {MatButton, MatIconButton} from "@angular/material/button";
+import {MatButton, MatButtonModule, MatIconButton} from "@angular/material/button";
 import {
   MatCell,
   MatCellDef,
@@ -14,7 +14,7 @@ import {
   MatTable,
   MatTableDataSource
 } from "@angular/material/table";
-import {MatIcon} from "@angular/material/icon";
+import {MatIcon, MatIconModule} from "@angular/material/icon";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort, MatSortHeader} from "@angular/material/sort";
 import {MatDialog} from '@angular/material/dialog';
@@ -25,6 +25,10 @@ import {CpfPipe} from '../../pipes/cpf.pipe';
 import {FornecedorPfFormComponent} from '../../forms/fornecedor-pf-form/fornecedor-pf-form.component';
 import {DataDdmmyyyyPipe} from '../../pipes/data-ddmmyyyy.pipe';
 import {MatTooltip} from '@angular/material/tooltip';
+import {MatFormField, MatFormFieldModule} from '@angular/material/form-field';
+import {FormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-fornecedor-pf',
@@ -49,7 +53,15 @@ import {MatTooltip} from '@angular/material/tooltip';
     MatHeaderCellDef,
     CpfPipe,
     DataDdmmyyyyPipe,
-    MatTooltip
+    MatTooltip,
+    MatFormField,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    NgIf
   ],
   templateUrl: './fornecedor-pf.component.html',
   styleUrl: './fornecedor-pf.component.css'
@@ -59,6 +71,7 @@ export class FornecedorPfComponent {
   public colunasTabela = ['id', 'cep', 'cpf', 'rg', 'dataNascimento', 'nome', 'email', 'acoes'];
   public dados = new MatTableDataSource<FornecedorPf>();
   public totalItems = 0;
+  public cpfDigitado = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -104,6 +117,21 @@ export class FornecedorPfComponent {
     return idade;
   }
 
+  public buscarFornecedoresPorCpf(cpfDigitado: string) {
+    const cpfLimpo = this.limparCpf(cpfDigitado);
+    this.fornecedorPfService.buscarFornecedoresPorCpf(cpfLimpo).subscribe(
+      (data: any) => {
+        this.dados.data = data.content;
+        this.totalItems = data.page.totalElements;
+        this.paginator.pageIndex = data.page.number;
+        this.paginator.length = data.page.totalElements;
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
+  }
+
   protected buscarFornecedoresPf(indice?: number, tamanho?: number): void {
     this.fornecedorPfService.buscarFornecedoresPf(indice, tamanho).subscribe(
       (data: any) => {
@@ -118,4 +146,7 @@ export class FornecedorPfComponent {
     );
   }
 
+  private limparCpf(cpf: string): string {
+    return cpf.replace(/[\s.-]/g, '');
+  }
 }

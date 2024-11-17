@@ -16,6 +16,10 @@ export class FornecedorPjService {
     return this.http.get<any>(`${environment.apiUrl}/${environment.fornecedorPjRoute}?indice=${indice}&tamanho=${itensPorPagina}`);
   }
 
+  public buscarFornecedoresPorCnpj(cnpj: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/${environment.fornecedorPjRoute}/cnpj/${cnpj}`);
+  }
+
   public criarFornecedorPj(fornecedorPj: FornecedorPj): Observable<FornecedorPj> {
     return this.http.post<FornecedorPj>(`${environment.apiUrl}/${environment.fornecedorPjRoute}`, fornecedorPj);
   }

@@ -2,6 +2,16 @@
   <button (click)="abrirDialog()" class="mat-mdc-raised-button" mat-button>Criar fornecedor</button>
 </div>
 
+<mat-form-field class="buscar-cpf">
+  <mat-label>Buscar CPF</mat-label>
+  <input (blur)="cpfDigitado === '' && buscarFornecedoresPf()" [(ngModel)]="cpfDigitado" class="input-buscar-cpf" matInput
+         type="text">
+  <button (click)="buscarFornecedoresPorCpf(cpfDigitado)" *ngIf="cpfDigitado" aria-label="Search" mat-icon-button
+          matSuffix>
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-form-field>
+
 <div class="mat-elevation-z8 tabela">
   <table [dataSource]="dados" mat-table matSort>
 
@@ -38,7 +48,8 @@
     <ng-container matColumnDef="dataNascimento">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Data de nascimento</th>
       <td *matCellDef="let elemento" [matTooltip]="calcularIdade(elemento.dataNascimento) + ' anos'"
-          mat-cell> {{ elemento.dataNascimento | dataDdmmyyyy }}
+          mat-cell
+          matTooltipPosition="before"> {{ elemento.dataNascimento | dataDdmmyyyy }}
       </td>
     </ng-container>
 

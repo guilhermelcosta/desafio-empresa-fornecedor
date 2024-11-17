@@ -2,6 +2,16 @@
   <button (click)="abrirDialog()" class="mat-mdc-raised-button" mat-button>Criar fornecedor</button>
 </div>
 
+<mat-form-field class="buscar-cnpj">
+  <mat-label>Buscar CNPJ</mat-label>
+  <input (blur)="cpfDigitado === '' && buscarFornecedoresPj()" [(ngModel)]="cpfDigitado" class="input-buscar-cpf" matInput
+         type="text">
+  <button (click)="buscarFornecedoresPorCpf(cpfDigitado)" *ngIf="cpfDigitado" aria-label="Search" mat-icon-button
+          matSuffix>
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-form-field>
+
 <div class="mat-elevation-z8 tabela">
   <table [dataSource]="dados" mat-table matSort>
 
@@ -12,7 +22,7 @@
 
     <ng-container matColumnDef="cep">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>CEP</th>
-      <td *matCellDef="let elemento" mat-cell> {{ elemento.cep | cep}}</td>
+      <td *matCellDef="let elemento" mat-cell> {{ elemento.cep | cep }}</td>
     </ng-container>
 
     <ng-container matColumnDef="cnpj">

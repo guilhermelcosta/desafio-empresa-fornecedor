@@ -18,12 +18,17 @@ export class FornecedorPfService {
     return this.http.get<any>(`${environment.apiUrl}/${environment.fornecedorPfRoute}?indice=${indice}&tamanho=${itensPorPagina}`);
   }
 
+  public buscarFornecedoresPorCpf(cpf: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/${environment.fornecedorPfRoute}/cpf/${cpf}`);
+  }
+
   public criarFornecedorPf(fornecedorPf: FornecedorPf): Observable<FornecedorPf> {
     fornecedorPf.dataNascimento = converteDataYYYYMMDD(new Date(fornecedorPf.dataNascimento));
     return this.http.post<FornecedorPf>(`${environment.apiUrl}/${environment.fornecedorPfRoute}`, fornecedorPf);
   }
 
   public atualizarFornecedorPf(fornecedorPf: FornecedorPf): Observable<FornecedorPf> {
+    fornecedorPf.dataNascimento = converteDataYYYYMMDD(new Date(fornecedorPf.dataNascimento));
     return this.http.put<FornecedorPf>(`${environment.apiUrl}/${environment.fornecedorPfRoute}/${fornecedorPf.id}`, fornecedorPf);
   }
 

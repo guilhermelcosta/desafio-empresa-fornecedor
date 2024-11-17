@@ -23,6 +23,10 @@ import {FornecedorPjFormComponent} from '../../forms/fornecedor-pj-form/forneced
 import {FornecedorPj} from '../../model/fornecedor-pj';
 import {CnpjPipe} from '../../pipes/cnpj.pipe';
 import {CepPipe} from '../../pipes/cep.pipe';
+import {MatFormField, MatLabel, MatSuffix} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {NgIf} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-fornecedor-pj',
@@ -45,7 +49,14 @@ import {CepPipe} from '../../pipes/cep.pipe';
     MatTable,
     MatHeaderCellDef,
     CnpjPipe,
-    CepPipe
+    CepPipe,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatSuffix,
+    NgIf,
+    ReactiveFormsModule,
+    FormsModule
   ],
   templateUrl: './fornecedor-pj.component.html',
   styleUrl: './fornecedor-pj.component.css'
@@ -55,6 +66,7 @@ export class FornecedorPjComponent implements OnInit {
   public colunasTabela = ['id', 'cep', 'cnpj', 'nomeFantasia', 'email', 'acoes'];
   public dados = new MatTableDataSource<FornecedorPj>();
   public totalItems = 0;
+  public cpfDigitado = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -87,6 +99,21 @@ export class FornecedorPjComponent implements OnInit {
     });
   }
 
+  public buscarFornecedoresPorCpf(cnpjDigitado: string) {
+    const cnpjLimpo = this.limparCnpj(cnpjDigitado);
+    this.fornecedorPjService.buscarFornecedoresPorCnpj(cnpjLimpo).subscribe(
+      (data: any) => {
+        this.dados.data = data.content;
+        this.totalItems = data.page.totalElements;
+        this.paginator.pageIndex = data.page.number;
+        this.paginator.length = data.page.totalElements;
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
+  }
+
   protected buscarFornecedoresPj(indice?: number, tamanho?: number): void {
     this.fornecedorPjService.buscarFornecedoresPj(indice, tamanho).subscribe(
       (data: any) => {
@@ -99,6 +126,10 @@ export class FornecedorPjComponent implements OnInit {
         console.error(error);
       }
     );
+  }
+
+  private limparCnpj(cnpj: string): string {
+    return cnpj.replace(/[\s./-]/g, '');
   }
 
 }
